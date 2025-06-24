@@ -40,6 +40,9 @@ INSTALLED_APPS = [
 
     # Local apps
     'users.apps.UsersConfig',
+    'blog.apps.BlogConfig',
+    'casualty.apps.CasualtyConfig',
+    'services.apps.ServicesConfig',
 
     # 3rd party apps
     'crispy_forms',
@@ -61,7 +64,7 @@ ROOT_URLCONF = 'brgy_alert.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

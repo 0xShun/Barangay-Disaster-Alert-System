@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}My Casualty Reports{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>My Casualty Reports</h1>
+    <a href="{% url 'casualty:report' %}" class="btn btn-success mb-3">Submit New Report</a>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Victim Name</th>
+                <th>Contact Info</th>
+                <th>Condition</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in reports %}
+            <tr>
+                <td>{{ report.victim_name }}</td>
+                <td>{{ report.contact_info }}</td>
+                <td>{{ report.condition }}</td>
+                <td>{{ report.location }}</td>
+                <td>{{ report.get_status_display }}</td>
+                <td>{{ report.timestamp|date:"F d, Y, P" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">You have not submitted any casualty reports yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %} 
