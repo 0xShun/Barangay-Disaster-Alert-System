@@ -31,7 +31,15 @@
                     <form method="post">
                         {% csrf_token %}
                         <div class="form-group">
-                            <label for="status">Current Status: <span class="badge badge-primary">{{ report.get_status_display }}</span></label>
+                            <label for="status">Current Status:
+                                {% if report.status == 'pending' %}
+                                    <span class="status-badge status-bad">{{ report.get_status_display }}</span>
+                                {% elif report.status == 'verified' or report.status == 'resolved' %}
+                                    <span class="status-badge status-good">{{ report.get_status_display }}</span>
+                                {% else %}
+                                    <span class="status-badge status-neutral">{{ report.get_status_display }}</span>
+                                {% endif %}
+                            </label>
                             <select name="status" id="status" class="form-control">
                                 {% for value, label in report.STATUS_CHOICES %}
                                     <option value="{{ value }}" {% if value == report.status %}selected{% endif %}>{{ label }}</option>

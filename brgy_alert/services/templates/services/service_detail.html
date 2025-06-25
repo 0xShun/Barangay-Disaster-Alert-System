@@ -19,10 +19,12 @@
                     <p>{{ service.requirements }}</p>
                     
                     <p class="text-muted">
-                        <strong>Status:</strong> 
-                        <span class="badge badge-{% if service.availability_status == 'available' %}success{% else %}danger{% endif %}">
-                            {{ service.get_availability_status_display }}
-                        </span>
+                        <strong>Status:</strong>
+                        {% if service.availability_status == 'available' %}
+                            <span class="badge status-good">{{ service.get_availability_status_display }}</span>
+                        {% else %}
+                            <span class="badge status-bad">{{ service.get_availability_status_display }}</span>
+                        {% endif %}
                     </p>
                 </div>
             </div>
@@ -36,7 +38,7 @@
                             <h5>Request Service</h5>
                         </div>
                         <div class="card-body">
-                            <form method="post">
+                            <form method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 {{ form|crispy }}
                                 <button type="submit" class="btn btn-primary btn-block">Submit Request</button>

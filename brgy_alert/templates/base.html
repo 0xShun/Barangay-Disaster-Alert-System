@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" style="height: 100%;">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -11,55 +11,103 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <style>
-        :root {
-            --main-light: #F1EFEC;
-            --main-accent: #D4C9BE;
-            --main-dark: #123458;
-            --main-black: #030303;
+        html, body {
+            height: 100%;
         }
         body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             background-color: var(--main-light) !important;
             color: var(--main-black);
+        }
+        main[role="main"].container {
+            flex: 1 0 auto;
+        }
+        .footer, footer.bg-dark {
+            flex-shrink: 0;
+        }
+        :root {
+            --main-light: #F1EFEC;
+            --main-accent: #123458;
+            --main-dark: #123458;
+            --main-black: #030303;
+            --status-good: #4CAF50;
+            --status-bad: #D32F2F;
+            --status-neutral: #FBC02D;
+            --card-radius: 1.25rem;
+            --card-shadow: 0 4px 24px 0 rgba(18,52,88,0.10), 0 1.5px 4px 0 rgba(18,52,88,0.08);
+            --card-shadow-hover: 0 8px 32px 0 rgba(18,52,88,0.18), 0 3px 8px 0 rgba(18,52,88,0.12);
+            --transition: 0.25s cubic-bezier(.4,0,.2,1);
         }
         .navbar, .footer, footer.bg-dark {
             background-color: var(--main-dark) !important;
         }
         .navbar-brand, .navbar-nav .nav-link, .navbar-dark .navbar-nav .nav-link {
             color: var(--main-light) !important;
+            font-weight: 600;
+            letter-spacing: 0.02em;
         }
         .navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .nav-link:focus, .navbar-dark .navbar-nav .nav-link:hover {
-            color: var(--main-accent) !important;
+            color: #fff !important;
+            text-shadow: 0 1px 4px rgba(18,52,88,0.15);
         }
         .dropdown-menu {
             background-color: var(--main-dark);
+            color: #fff !important;
+            border-radius: 0.75rem;
+            box-shadow: var(--card-shadow);
         }
         .dropdown-item {
-            color: var(--main-light);
+            color: #fff !important;
+            border-radius: 0.5rem;
+            transition: background var(--transition), color var(--transition);
         }
         .dropdown-item:hover, .dropdown-item:focus {
-            background-color: var(--main-accent);
-            color: var(--main-black);
+            background-color: #0d223a !important;
+            color: #fff !important;
         }
         .card {
             background-color: var(--main-light);
-            border: 1px solid var(--main-accent);
+            border: none;
+            border-radius: var(--card-radius);
+            box-shadow: var(--card-shadow);
+            transition: box-shadow var(--transition), transform var(--transition);
         }
-        .card-header, .card-footer {
-            background-color: var(--main-accent);
-            color: var(--main-black);
+        .card:hover {
+            box-shadow: var(--card-shadow-hover);
+            transform: translateY(-4px) scale(1.015);
         }
-        .btn-primary, .btn-success, .btn-info, .btn-warning, .btn-danger {
+        .card-header, .card-footer, .jumbotron, .btn-primary, .btn-success, .btn-info, .btn-warning, .btn-danger, .dropdown-menu {
             background-color: var(--main-accent) !important;
-            border-color: var(--main-accent) !important;
-            color: var(--main-black) !important;
+            color: #fff !important;
+            border-radius: var(--card-radius) var(--card-radius) 0 0;
         }
-        .btn-primary:hover, .btn-success:hover, .btn-info:hover, .btn-warning:hover, .btn-danger:hover {
-            background-color: var(--main-dark) !important;
-            color: var(--main-light) !important;
+        .jumbotron {
+            border-radius: var(--card-radius);
+            box-shadow: var(--card-shadow);
+            padding: 2.5rem 2rem;
+            margin-bottom: 2.5rem;
+            background: linear-gradient(120deg, var(--main-accent) 80%, #1e3358 100%);
+            color: #fff;
+        }
+        .btn, .btn-primary, .btn-success, .btn-info, .btn-warning, .btn-danger {
+            border-radius: 2rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            box-shadow: 0 2px 8px 0 rgba(18,52,88,0.08);
+            transition: background var(--transition), color var(--transition), box-shadow var(--transition), transform var(--transition);
+        }
+        .btn:hover, .btn:focus {
+            background-color: #0d223a !important;
+            color: #fff !important;
+            box-shadow: 0 4px 16px 0 rgba(18,52,88,0.18);
+            transform: translateY(-2px) scale(1.04);
         }
         .table thead {
             background-color: var(--main-accent);
-            color: var(--main-black);
+            color: #fff;
+            border-radius: var(--card-radius) var(--card-radius) 0 0;
         }
         .table-striped tbody tr:nth-of-type(odd) {
             background-color: #ede8e2;
@@ -68,32 +116,74 @@
             background-color: #e6e2d6;
             color: var(--main-black);
             border-color: var(--main-accent);
+            border-radius: 0.75rem;
         }
-        .alert-danger, .alert-warning, .alert-success {
-            background-color: var(--main-accent);
-            color: var(--main-black);
-            border-color: var(--main-dark);
+        .alert-success {
+            background-color: #4CAF50 !important;
+            color: #fff !important;
+            border-color: #388E3C !important;
+        }
+        .alert-danger, .alert-error {
+            background-color: #D32F2F !important;
+            color: #fff !important;
+            border-color: #B71C1C !important;
         }
         .badge-primary, .badge-success, .badge-info, .badge-warning, .badge-danger {
             background-color: var(--main-accent) !important;
             color: var(--main-black) !important;
-        }
-        .jumbotron {
-            background-color: var(--main-accent);
-            color: var(--main-black);
-            border-radius: 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            box-shadow: 0 1px 4px 0 rgba(18,52,88,0.10);
         }
         .form-control:focus {
             border-color: var(--main-accent);
-            box-shadow: 0 0 0 0.2rem rgba(212,201,190,.25);
+            box-shadow: 0 0 0 0.2rem rgba(18,52,88,.15);
         }
         .page-link {
             color: var(--main-accent);
+            border-radius: 0.5rem;
         }
         .page-item.active .page-link {
             background-color: var(--main-accent);
             border-color: var(--main-accent);
-            color: var(--main-black);
+            color: #fff;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.35em 0.7em;
+            font-size: 0.95em;
+            font-weight: 600;
+            border-radius: 0.5em;
+            letter-spacing: 0.03em;
+            box-shadow: 0 1px 4px 0 rgba(18,52,88,0.10);
+            transition: background var(--transition), color var(--transition);
+        }
+        .status-good {
+            background-color: var(--status-good) !important;
+            color: #fff !important;
+        }
+        .status-bad {
+            background-color: var(--status-bad) !important;
+            color: #fff !important;
+        }
+        .status-neutral {
+            background-color: var(--status-neutral) !important;
+            color: #fff !important;
+        }
+        /* Add more whitespace to card rows */
+        .row > [class^='col-'] {
+            margin-bottom: 2rem;
+        }
+        /* Modernize scrollbar for webkit browsers */
+        ::-webkit-scrollbar {
+            width: 10px;
+            background: #e6e2d6;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #b0b8c1;
+            border-radius: 8px;
         }
     </style>
 
@@ -136,6 +226,9 @@
                                 <i class="fas fa-user-shield"></i> Admin
                             </a>
                             <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                <a class="dropdown-item" href="{% url 'services:admin_dashboard' %}">
+                                    <i class="fas fa-chart-bar"></i> Dashboard
+                                </a>
                                 <a class="dropdown-item" href="{% url 'casualty:all_reports' %}">
                                     <i class="fas fa-list"></i> All Reports
                                 </a>
@@ -144,6 +237,9 @@
                                 </a>
                                 <a class="dropdown-item" href="{% url 'services:manage_services' %}">
                                     <i class="fas fa-cogs"></i> Manage Services
+                                </a>
+                                <a class="dropdown-item" href="{% url 'blog:admin_create_blog_post' %}">
+                                    <i class="fas fa-plus"></i> New Blog Post
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{% url 'admin:index' %}">

@@ -19,10 +19,14 @@
                             <p><strong>Date Requested:</strong> {{ service_request.timestamp|date:"M j, Y H:i" }}</p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>Current Status:</strong> 
-                                <span class="badge badge-primary">
-                                    {{ service_request.get_status_display }}
-                                </span>
+                            <p><strong>Current Status:</strong>
+                                {% if service_request.status == 'pending' or service_request.status == 'rejected' %}
+                                    <span class="status-badge status-bad">{{ service_request.get_status_display }}</span>
+                                {% elif service_request.status == 'approved' or service_request.status == 'completed' %}
+                                    <span class="status-badge status-good">{{ service_request.get_status_display }}</span>
+                                {% else %}
+                                    <span class="status-badge status-neutral">{{ service_request.get_status_display }}</span>
+                                {% endif %}
                             </p>
                         </div>
                     </div>
@@ -48,6 +52,31 @@
                         <button type="submit" class="btn btn-primary">Update Status</button>
                         <a href="{% url 'services:all_requests' %}" class="btn btn-secondary">Cancel</a>
                     </form>
+
+                    {% if uploads %}
+                        <hr>
+                        <h5>Submitted Files/Photos</h5>
+                        <ul>
+                            {% for upload in uploads %}
+                                <li>
+                                    <strong>{{ upload.requirement.label }}:</strong>
+                                    {% if upload.file %}
+                                        {% with ext=upload.file.url|lower %}
+                                            {% if ext|slice:'-4:' == '.jpg' or ext|slice:'-5:' == '.jpeg' or ext|slice:'-4:' == '.png' or ext|slice:'-4:' == '.gif' %}
+                                                <a href="{{ upload.file.url }}" target="_blank">
+                                                    <img src="{{ upload.file.url }}" style="max-width:120px; max-height:80px; border-radius:6px; box-shadow:0 1px 4px #888; margin-right:8px; vertical-align:middle;" alt="Image preview">
+                                                </a>
+                                            {% else %}
+                                                <a href="{{ upload.file.url }}" target="_blank">View File</a>
+                                            {% endif %}
+                                        {% endwith %}
+                                    {% elif upload.value %}
+                                        {{ upload.value }}
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
                 </div>
             </div>
         </div>

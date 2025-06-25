@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard - Barangay Alert Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Admin Dashboard</h2>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card text-center">
+                <div class="card-header">Users</div>
+                <div class="card-body">
+                    <h5 class="card-title">Total Users</h5>
+                    <p class="display-4">{{ stats.total_users }}</p>
+                    <span class="status-badge status-good">Admins: {{ stats.total_admins }}</span>
+                    <span class="status-badge status-neutral ml-2">Citizens: {{ stats.total_citizens }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-center">
+                <div class="card-header">Blogs & Comments</div>
+                <div class="card-body">
+                    <h5 class="card-title">Blog Posts</h5>
+                    <p class="display-4">{{ stats.total_blog_posts }}</p>
+                    <span class="status-badge status-neutral">Comments: {{ stats.total_comments }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-center">
+                <div class="card-header">Hotlines</div>
+                <div class="card-body">
+                    <h5 class="card-title">Total Hotlines</h5>
+                    <p class="display-4">{{ stats.total_hotlines }}</p>
+                    <span class="status-badge status-good">Active: {{ stats.active_hotlines }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card text-center">
+                <div class="card-header">Casualty Reports</div>
+                <div class="card-body">
+                    <h5 class="card-title">Total Reports</h5>
+                    <p class="display-4">{{ stats.total_casualty_reports }}</p>
+                    <span class="status-badge status-bad">Pending: {{ stats.pending_casualty_reports }}</span>
+                    <span class="status-badge status-good ml-2">Verified: {{ stats.verified_casualty_reports }}</span>
+                    <span class="status-badge status-good ml-2">Resolved: {{ stats.resolved_casualty_reports }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card text-center">
+                <div class="card-header">Service Requests</div>
+                <div class="card-body">
+                    <h5 class="card-title">Total Requests</h5>
+                    <p class="display-4">{{ stats.total_service_requests }}</p>
+                    <span class="status-badge status-bad">Pending: {{ stats.pending_service_requests }}</span>
+                    <span class="status-badge status-good ml-2">Approved: {{ stats.approved_service_requests }}</span>
+                    <span class="status-badge status-good ml-2">Completed: {{ stats.completed_service_requests }}</span>
+                    <span class="status-badge status-bad ml-2">Rejected: {{ stats.rejected_service_requests }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card text-center">
+                <div class="card-header">Services</div>
+                <div class="card-body">
+                    <h5 class="card-title">Total Services</h5>
+                    <p class="display-4">{{ stats.total_services }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

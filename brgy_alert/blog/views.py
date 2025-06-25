@@ -1,8 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from django.views import View
 from .models import BlogPost, Comment
-from .forms import CommentForm
+from .forms import CommentForm, BlogPostForm
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
+from users.decorators import admin_required
 
 # Create your views here.
 
@@ -35,3 +38,16 @@ class BlogPostDetailView(View):
             comment_form = CommentForm() # Reset form
         
         return render(request, 'blog/blog_detail.html', {'post': post, 'comment_form': comment_form})
+
+@admin_required
+def admin_create_blog_post(request):
+    if request.method == 'POST':
+        form = BlogPostForm(request.POST)
+        if form.is_valid():
+            blog_post = form.save(commit=False)
+            blog_post.author = request.user
+            blog_post.save()
+            return redirect('blog:blog_detail', pk=blog_post.pk)
+    else:
+        form = BlogPostForm()
+    return render(request, 'blog/admin_create_blog_post.html', {'form': form})

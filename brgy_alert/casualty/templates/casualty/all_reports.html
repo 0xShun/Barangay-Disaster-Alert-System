@@ -9,7 +9,7 @@
     {% if reports %}
         <div class="table-responsive">
             <table class="table table-striped" style="background-color: var(--main-light);">
-                <thead style="background-color: var(--main-accent); color: var(--main-black);">
+                <thead style="background-color: var(--main-accent); color: #fff;">
                     <tr>
                         <th>Victim Name</th>
                         <th>Reporter</th>
@@ -30,9 +30,13 @@
                             <td>{{ report.condition }}</td>
                             <td>{{ report.location }}</td>
                             <td>
-                                <span class="badge badge-primary">
-                                    {{ report.get_status_display }}
-                                </span>
+                                {% if report.status == 'pending' %}
+                                    <span class="status-badge status-bad">{{ report.get_status_display }}</span>
+                                {% elif report.status == 'verified' or report.status == 'resolved' %}
+                                    <span class="status-badge status-good">{{ report.get_status_display }}</span>
+                                {% else %}
+                                    <span class="status-badge status-neutral">{{ report.get_status_display }}</span>
+                                {% endif %}
                             </td>
                             <td>{{ report.timestamp|date:"M j, Y H:i" }}</td>
                             <td>

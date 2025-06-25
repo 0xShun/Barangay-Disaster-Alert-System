@@ -58,3 +58,20 @@ class EmergencyHotline(models.Model):
 
     class Meta:
         ordering = ['category', 'agency_name']
+
+class ServiceRequirement(models.Model):
+    service = models.ForeignKey(Service, related_name='service_requirements', on_delete=models.CASCADE)
+    label = models.CharField(max_length=255)
+    requirement_type = models.CharField(max_length=10, choices=[('text', 'Text'), ('file', 'File'), ('photo', 'Photo')])
+
+    def __str__(self):
+        return f"{self.label} ({self.get_requirement_type_display()})"
+
+class ServiceRequestRequirementUpload(models.Model):
+    request = models.ForeignKey('ServiceRequest', related_name='uploads', on_delete=models.CASCADE)
+    requirement = models.ForeignKey(ServiceRequirement, on_delete=models.CASCADE)
+    file = models.FileField(upload_to='service_uploads/', blank=True, null=True)
+    value = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.requirement.label} for {self.request}"

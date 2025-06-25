@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load markdown_extras %}
 
 {% block title %}{{ post.title }}{% endblock %}
 
@@ -9,7 +10,7 @@
         <div class="card-body">
             <h1 class="card-title">{{ post.title }}</h1>
             <h6 class="card-subtitle mb-2 text-muted">By {{ post.author.username }} on {{ post.timestamp|date:"F d, Y" }}</h6>
-            <p class="card-text">{{ post.content|linebreaks }}</p>
+            <div class="card-text">{{ post.content|markdown }}</div>
         </div>
     </div>
 

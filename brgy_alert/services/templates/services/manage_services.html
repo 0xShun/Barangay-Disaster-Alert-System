@@ -15,7 +15,7 @@
     {% if services %}
         <div class="table-responsive">
             <table class="table table-striped" style="background-color: var(--main-light);">
-                <thead style="background-color: var(--main-accent); color: var(--main-black);">
+                <thead style="background-color: var(--main-accent); color: #fff;">
                     <tr>
                         <th>Service Name</th>
                         <th>Description</th>
@@ -30,9 +30,11 @@
                             <td>{{ service.name }}</td>
                             <td>{{ service.description|truncatewords:10 }}</td>
                             <td>
-                                <span class="badge badge-primary">
-                                    {{ service.get_availability_status_display }}
-                                </span>
+                                {% if service.availability_status == 'available' %}
+                                    <span class="badge status-good">{{ service.get_availability_status_display }}</span>
+                                {% else %}
+                                    <span class="badge status-bad">{{ service.get_availability_status_display }}</span>
+                                {% endif %}
                             </td>
                             <td>{{ service.created_at|date:"M j, Y" }}</td>
                             <td>

@@ -9,7 +9,7 @@
     {% if requests %}
         <div class="table-responsive">
             <table class="table table-striped" style="background-color: var(--main-light);">
-                <thead style="background-color: var(--main-accent); color: var(--main-black);">
+                <thead style="background-color: var(--main-accent); color: #fff;">
                     <tr>
                         <th>User</th>
                         <th>Service</th>
@@ -26,9 +26,13 @@
                             <td>{{ request.service.name }}</td>
                             <td>{{ request.reason|truncatewords:10 }}</td>
                             <td>
-                                <span class="badge badge-primary">
-                                    {{ request.get_status_display }}
-                                </span>
+                                {% if request.status == 'pending' or request.status == 'rejected' %}
+                                    <span class="status-badge status-bad">{{ request.get_status_display }}</span>
+                                {% elif request.status == 'approved' or request.status == 'completed' %}
+                                    <span class="status-badge status-good">{{ request.get_status_display }}</span>
+                                {% else %}
+                                    <span class="status-badge status-neutral">{{ request.get_status_display }}</span>
+                                {% endif %}
                             </td>
                             <td>{{ request.timestamp|date:"M j, Y H:i" }}</td>
                             <td>
