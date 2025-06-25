@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ service.name }} - Barangay Alert Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3>{{ service.name }}</h3>
+                </div>
+                <div class="card-body">
+                    <h5>Description</h5>
+                    <p>{{ service.description }}</p>
+                    
+                    <h5>Requirements</h5>
+                    <p>{{ service.requirements }}</p>
+                    
+                    <p class="text-muted">
+                        <strong>Status:</strong> 
+                        <span class="badge badge-{% if service.availability_status == 'available' %}success{% else %}danger{% endif %}">
+                            {{ service.get_availability_status_display }}
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            {% if user.is_authenticated %}
+                {% if service.availability_status == 'available' %}
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Request Service</h5>
+                        </div>
+                        <div class="card-body">
+                            <form method="post">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <button type="submit" class="btn btn-primary btn-block">Submit Request</button>
+                            </form>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning">
+                        This service is currently unavailable.
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="alert alert-info">
+                    Please <a href="{% url 'users:login' %}">login</a> to request this service.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

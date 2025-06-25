@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}All Casualty Reports - Barangay Alert Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">All Casualty Reports</h2>
+    
+    {% if reports %}
+        <div class="table-responsive">
+            <table class="table table-striped" style="background-color: var(--main-light);">
+                <thead style="background-color: var(--main-accent); color: var(--main-black);">
+                    <tr>
+                        <th>Victim Name</th>
+                        <th>Reporter</th>
+                        <th>Contact Info</th>
+                        <th>Condition</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                        <th>Date Reported</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in reports %}
+                        <tr>
+                            <td>{{ report.victim_name }}</td>
+                            <td>{{ report.reporter.username }}</td>
+                            <td>{{ report.contact_info }}</td>
+                            <td>{{ report.condition }}</td>
+                            <td>{{ report.location }}</td>
+                            <td>
+                                <span class="badge badge-primary">
+                                    {{ report.get_status_display }}
+                                </span>
+                            </td>
+                            <td>{{ report.timestamp|date:"M j, Y H:i" }}</td>
+                            <td>
+                                <a href="{% url 'casualty:update_report' report.pk %}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-edit"></i> Update
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            No casualty reports found.
+        </div>
+    {% endif %}
+</div>
+{% endblock %} 

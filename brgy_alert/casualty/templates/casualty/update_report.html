@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Report - Barangay Alert Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Update Casualty Report</h3>
+                </div>
+                <div class="card-body" style="background-color: var(--main-light);">
+                    <h5>Report Details</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Victim Name:</strong> {{ report.victim_name }}</p>
+                            <p><strong>Reporter:</strong> {{ report.reporter.username }}</p>
+                            <p><strong>Contact Info:</strong> {{ report.contact_info }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Condition:</strong> {{ report.condition }}</p>
+                            <p><strong>Location:</strong> {{ report.location }}</p>
+                            <p><strong>Date Reported:</strong> {{ report.timestamp|date:"M j, Y H:i" }}</p>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <h5>Update Status</h5>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="status">Current Status: <span class="badge badge-primary">{{ report.get_status_display }}</span></label>
+                            <select name="status" id="status" class="form-control">
+                                {% for value, label in report.STATUS_CHOICES %}
+                                    <option value="{{ value }}" {% if value == report.status %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Status</button>
+                        <a href="{% url 'casualty:all_reports' %}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

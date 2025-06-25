@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}All Service Requests - Barangay Alert Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">All Service Requests</h2>
+    
+    {% if requests %}
+        <div class="table-responsive">
+            <table class="table table-striped" style="background-color: var(--main-light);">
+                <thead style="background-color: var(--main-accent); color: var(--main-black);">
+                    <tr>
+                        <th>User</th>
+                        <th>Service</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Date Requested</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in requests %}
+                        <tr>
+                            <td>{{ request.user.username }}</td>
+                            <td>{{ request.service.name }}</td>
+                            <td>{{ request.reason|truncatewords:10 }}</td>
+                            <td>
+                                <span class="badge badge-primary">
+                                    {{ request.get_status_display }}
+                                </span>
+                            </td>
+                            <td>{{ request.timestamp|date:"M j, Y H:i" }}</td>
+                            <td>
+                                <a href="{% url 'services:update_request' request.pk %}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-edit"></i> Update
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            No service requests found.
+        </div>
+    {% endif %}
+</div>
+{% endblock %} 

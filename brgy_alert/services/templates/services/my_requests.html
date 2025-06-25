@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}My Service Requests - Barangay Alert Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">My Service Requests</h2>
+    
+    {% if requests %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Date Requested</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in requests %}
+                        <tr>
+                            <td>{{ request.service.name }}</td>
+                            <td>{{ request.reason|truncatewords:10 }}</td>
+                            <td>
+                                <span class="badge badge-{% if request.status == 'pending' %}warning{% elif request.status == 'approved' %}success{% elif request.status == 'rejected' %}danger{% else %}info{% endif %}">
+                                    {{ request.get_status_display }}
+                                </span>
+                            </td>
+                            <td>{{ request.timestamp|date:"M j, Y" }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            You haven't submitted any service requests yet.
+            <a href="{% url 'services:service_list' %}" class="alert-link">Browse available services</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %} 

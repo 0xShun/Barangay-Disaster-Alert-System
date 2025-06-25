@@ -1,9 +1,11 @@
 from django.urls import path
-from .views import CasualtyReportCreateView, MyCasualtyReportsListView
+from . import views
 
 app_name = 'casualty'
 
 urlpatterns = [
-    path('report/', CasualtyReportCreateView.as_view(), name='report'),
-    path('my-reports/', MyCasualtyReportsListView.as_view(), name='my_reports'),
+    path('report/', views.CasualtyReportCreateView.as_view(), name='report_form'),
+    path('my-reports/', views.MyCasualtyReportsListView.as_view(), name='my_reports'),
+    path('all-reports/', views.all_casualty_reports, name='all_reports'),
+    path('update-report/<int:pk>/', views.update_casualty_report, name='update_report'),
 ] 

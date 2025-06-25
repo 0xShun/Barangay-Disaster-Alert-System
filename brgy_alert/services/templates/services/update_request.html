@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Service Request - Barangay Alert Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Update Service Request</h3>
+                </div>
+                <div class="card-body" style="background-color: var(--main-light);">
+                    <h5>Request Details</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>User:</strong> {{ service_request.user.username }}</p>
+                            <p><strong>Service:</strong> {{ service_request.service.name }}</p>
+                            <p><strong>Date Requested:</strong> {{ service_request.timestamp|date:"M j, Y H:i" }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Current Status:</strong> 
+                                <span class="badge badge-primary">
+                                    {{ service_request.get_status_display }}
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <h5>Reason for Request</h5>
+                    <div class="alert alert-info">
+                        {{ service_request.reason }}
+                    </div>
+                    
+                    <hr>
+                    
+                    <h5>Update Status</h5>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="status">New Status:</label>
+                            <select name="status" id="status" class="form-control">
+                                {% for value, label in service_request.STATUS_CHOICES %}
+                                    <option value="{{ value }}" {% if value == service_request.status %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Status</button>
+                        <a href="{% url 'services:all_requests' %}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Emergency Hotlines - Barangay Alert Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Emergency Hotlines</h2>
+    <p class="text-muted mb-4">Click on any number to call directly from your mobile device.</p>
+    
+    {% if categories %}
+        {% for category, hotlines in categories.items %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>{{ category }}</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for hotline in hotlines %}
+                            <div class="col-md-6 col-lg-4 mb-3">
+                                <div class="card border-primary">
+                                    <div class="card-body">
+                                        <h6 class="card-title">{{ hotline.agency_name }}</h6>
+                                        <p class="card-text">{{ hotline.description }}</p>
+                                        <a href="tel:{{ hotline.number }}" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-phone"></i> {{ hotline.number }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info">
+            No emergency hotlines are currently available.
+        </div>
+    {% endif %}
+    
+    <div class="alert alert-warning mt-4">
+        <strong>Important:</strong> In case of emergency, always call the appropriate emergency number immediately. 
+        This directory is for reference only and should not replace official emergency procedures.
+    </div>
+</div>
+{% endblock %} 
